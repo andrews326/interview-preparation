@@ -1,0 +1,127 @@
+. What is MongoDB and why is it used?
+
+MongoDB is a NoSQL, document-oriented database that stores data in flexible JSON-like (BSON) documents.
+It’s used for scalability, schema-less design, and high performance with unstructured or semi-structured data.
+
+2. What is a document, collection, and database in MongoDB?
+
+Document → a single record (JSON object).
+
+Collection → a group of related documents (similar to a table).
+
+Database → a group of collections.
+
+3. What is BSON and how is it different from JSON?
+
+BSON (Binary JSON) is MongoDB’s internal data format.
+It supports extra data types such as Date, ObjectId, and binary data and is faster for parsing.
+
+4. What is the _id field?
+
+Every document has a unique _id (primary key).
+By default, MongoDB generates an ObjectId containing timestamp + machine id + process id + counter.
+
+5. How do you insert, update, and delete documents?
+db.users.insertOne({ name:"Andre", age:25 })
+db.users.updateOne({ name:"Andre" }, { $set:{ age:26 } })
+db.users.deleteOne({ name:"Andre" })
+
+6. How do you query data?
+db.users.find({ age:{ $gt:20 } })
+db.users.find({ $or:[{city:"Chennai"}, {city:"Madurai"}] })
+db.users.find().sort({ age:-1 }).limit(5)
+
+
+Operators: $gt, $lt, $in, $and, $or, $regex.
+
+7. What are indexes and why are they important?
+
+Indexes speed up queries.
+
+db.users.createIndex({ email:1 })
+
+
+Without an index, MongoDB scans every document in a collection.
+
+8. What is an aggregation pipeline?
+
+Used for complex analytics (filter → group → sort).
+Example – count orders per status:
+
+db.orders.aggregate([
+  { $group:{ _id:"$status", total:{ $sum:1 } } },
+  { $sort:{ total:-1 } }
+])
+
+9. What is the difference between embedding and referencing?
+
+Embedding: Store related data inside one document.
+✅ Fast reads, ideal for small nested data.
+
+Referencing: Use _id links between collections.
+✅ Better for large, reusable, or changing data.
+
+10. How are transactions handled in MongoDB?
+
+From v4.0+, multi-document ACID transactions are supported:
+
+session.startTransaction()
+db.accounts.updateOne(..., { session })
+db.transfers.insertOne(..., { session })
+session.commitTransaction()
+
+11. How do you connect MongoDB with Golang?
+client, err := mongo.Connect(ctx, options.Client().ApplyURI(uri))
+collection := client.Database("testdb").Collection("users")
+res, _ := collection.InsertOne(ctx, bson.M{"name":"Andre"})
+
+
+Use the official mongo-go-driver package.
+
+12. What are common data types in MongoDB?
+
+String, Number, Boolean, Date, Array, Object, ObjectId, Binary, Null.
+
+13. What is replication in MongoDB?
+
+Replication copies data across multiple servers (replica sets) for high availability.
+
+14. What is sharding?
+
+Sharding splits large data sets across multiple machines (horizontal scaling).
+
+15. Difference between find() and findOne()
+
+find() → returns a cursor of all matching docs.
+
+findOne() → returns only the first match.
+
+16. How do you project specific fields?
+db.users.find({}, { name:1, email:1, _id:0 })
+
+
+Shows only selected fields.
+
+17. How to perform pattern matching (search)?
+db.users.find({ name:{ $regex:"^A", $options:"i" } })
+
+
+Finds names starting with “A”, case-insensitive.
+
+18. What are capped collections?
+
+Fixed-size collections that automatically overwrite oldest documents when full; useful for logs.
+
+19. How do you backup and restore MongoDB data?
+
+Backup: mongodump --db mydb --out /backups/
+
+Restore: mongorestore /backups/mydb/
+
+20. Difference between MongoDB and SQL databases
+| MongoDB            | SQL (DB)                   |
+| ------------------ | -------------------------- |
+| No fixed schema    | Fixed tables & schema      |
+| JSON documents     | Rows & columns             |
+| Horizontal scaling | Vertical scaling           |
+| Dynamic queries    | Structured queries (JOINs) |

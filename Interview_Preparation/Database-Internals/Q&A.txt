@@ -1,0 +1,217 @@
+🧠 DATABASE INTERNALS + SQL + NoSQL — REAL INTERVIEW Q&A
+
+(spoken English + filler verbs, simple and easy to remember)
+
+⭐ PART 1: DATABASE INTERNALS (SQL engine internals)
+1️⃣ What happens internally when you run a SQL query?
+
+Answer (spoken):
+“Basically, the query goes through a pipeline.
+First the parser checks the syntax,
+then the optimizer creates the best execution plan,
+and finally the executor runs the plan by accessing indexes, storage pages, buffers etc.
+So the engine does parsing → planning → execution.”
+
+2️⃣ What is an execution plan?
+
+Answer:
+“Actually, the execution plan is a step-by-step blueprint of how the DB will fetch your data.
+It decides things like which index to use, join order, and how rows will be filtered.
+We check it using EXPLAIN.”
+
+3️⃣ What is a clustered index vs non-clustered index?
+
+Answer:
+“In simple words, a clustered index decides the physical order of rows in the storage.
+A non-clustered index is a separate structure with pointers to the real data.
+Clustered = data sorted physically.
+Non-clustered = index sorted, data separate.”
+
+4️⃣ What is the buffer pool?
+
+Answer:
+“To be honest, the buffer pool is a memory area where frequently used data pages are cached.
+So instead of going to disk every time, the DB reads from memory — which is way faster.”
+
+5️⃣ What is WAL (Write Ahead Log)?
+
+Answer:
+“Basically, before the database writes data to disk, it first writes the change to a log file (WAL).
+This guarantees durability — even if the server crashes, WAL helps recover.”
+
+6️⃣ What is MVCC (Multi Version Concurrency Control)?
+
+Answer:
+“Actually, MVCC allows multiple readers and writers without blocking each other.
+Instead of locking, the DB keeps multiple versions of the row.
+Readers see a snapshot, writers update a new version.”
+
+7️⃣ What is a deadlock? How do you handle it?
+
+Answer:
+“A deadlock is when two transactions wait for each other’s locks forever.
+Usually the DB detects it and kills one transaction.
+To reduce deadlocks, keep transactions short and access tables in the same order.”
+
+8️⃣ What is an index scan vs table scan?
+
+Answer:
+“Index scan uses index tree; table scan reads entire table.
+If your table is huge, table scans are expensive.”
+
+9️⃣ Why is SELECT * bad?
+
+Answer:
+“Basically, SELECT * forces the DB to fetch all columns,
+may avoid index-only scan, increases network transfer,
+and slows performance. Always select only what you need.”
+
+🔟 What is ACID?
+
+Answer:
+“In simple words:
+
+Atomicity → all or nothing
+
+Consistency → data remains valid
+
+Isolation → transactions don’t interfere
+
+Durability → data survives crash
+These ensure reliable transactions.”
+
+⭐ PART 2: SQL — REAL INTERVIEW Q&A
+1️⃣ What is normalization and why do we use it?
+
+Answer:
+“Basically normalization removes duplicate data and ensures better consistency.
+1NF removes repeating groups,
+2NF removes partial dependency,
+3NF removes transitive dependency.”
+
+2️⃣ What is denormalization?
+
+Answer:
+“Actually, denormalization is intentionally adding redundancy for performance,
+especially when reading data frequently.”
+
+3️⃣ What is a JOIN?
+
+Answer:
+“A join basically combines rows from two tables.
+Inner shows matched rows,
+left shows all from left,
+right shows all from right,
+full shows all from both sides.”
+
+4️⃣ Difference between DELETE, TRUNCATE, DROP?
+
+Answer:
+“DELETE removes row-by-row.
+TRUNCATE clears all rows quickly, can’t rollback.
+DROP removes the entire table.”
+
+5️⃣ What is an index? Why do we need it?
+
+Answer:
+“Index is like a book index — helps locate rows faster.
+Without index DB must scan the whole table.”
+
+6️⃣ What is a foreign key?
+
+Answer:
+“Foreign key maintains relationships between tables,
+and ensures nothing breaks — like preventing orphan rows.”
+
+7️⃣ What is the difference between WHERE and HAVING?
+
+Answer:
+“WHERE filters rows before grouping;
+HAVING filters groups after GROUP BY.”
+
+8️⃣ What is SQL injection? How do you prevent it?
+
+Answer:
+“It’s an attack where user input changes the query.
+We prevent using prepared statements or parameterized queries.”
+
+9️⃣ What is a transaction isolation level?
+
+Answer:
+“It defines how transactions see each other’s changes.
+Read Committed → default
+Repeatable Read → prevents non-repeatable reads
+Serializable → strictest, highest isolation.”
+
+🔟 What is the difference between primary key and unique key?
+
+Answer:
+“Primary key can’t have NULL and only one per table.
+Unique key allows NULL and can have multiple.”
+
+⭐ PART 3: NoSQL (Redis, Cassandra, MongoDB) — Real Interview Q&A
+1️⃣ Why do companies use NoSQL?
+
+Answer:
+“To be honest, NoSQL is used for high scalability, flexible schema, and huge data volumes.
+SQL focuses on consistency; NoSQL focuses on availability and performance.”
+
+2️⃣ What is eventual consistency?
+
+Answer:
+“Basically, data may not be updated everywhere immediately,
+but becomes consistent after some time.
+Cassandra and DynamoDB use this model.”
+
+3️⃣ When do we choose NoSQL over SQL?
+
+Answer:
+“When the data is unstructured,
+when you need massive writes,
+or when horizontal scaling is required.”
+
+4️⃣ What is the CAP theorem?
+
+Answer:
+“It says a distributed DB can only guarantee two out of three:
+Consistency, Availability, Partition tolerance.
+Cassandra → AP
+MongoDB → CP.”
+
+5️⃣ What is Cassandra’s data model?
+
+Answer:
+“Actually Cassandra uses a wide column store.
+Data is stored as partitions → rows → columns.
+It’s optimized for fast writes and distributed scaling.”
+
+6️⃣ Why is Cassandra so fast?
+
+Answer:
+“Because writes go to memory first (memtable) and to WAL,
+then flushed to SSTables.
+Also no master node — everything is distributed.”
+
+7️⃣ What is Redis used for?
+
+Answer:
+“In simple words, Redis is in-memory and super fast.
+We use it for caching, sessions, queues, rate limiting, leaderboard, etc.”
+
+8️⃣ What is TTL in Redis?
+
+Answer:
+“It basically means expiry time of a key.
+After TTL expires, the key is removed automatically.”
+
+9️⃣ What is sharding?
+
+Answer:
+“Sharding splits data across multiple servers.
+This helps with horizontal scaling.”
+
+🔟 What is replication in databases?
+
+Answer:
+“Replication means copying data from one node to others.
+Purpose is high availability, failover and faster reads.”

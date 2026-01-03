@@ -1,0 +1,69 @@
+
+cqrs (command query responsibility segregation)
+saga pattern
+circute bracker 
+api gateway 
+event driven pattern microservices
+
+
+  simple  terms explanation with example from my experience:
+   i have worked on a clean architecture that follows modular and layerd design. each module
+   in our project like organization sevice, communication service had clear seperation between 
+   handler, service layer and data layer making it easy to maintain and scale
+
+
+1.  CQRS:
+   what is it :
+     Split the system into two models: Commands (writes/updates) and Queries (reads). They may use different data schemas, stores, or even different technologies.
+   why we use it:  to
+    seperate read and write operations for better performance and scalability. 
+    for example:
+   in our organization service, we had different models for reading organization data and writing
+   organization data. this allowed us to optimize queries for read operations without affecting
+   write operations.
+     components:
+       - command side: handles write operations (create, update, delete)
+       - query side: handles read operations (fetching data)
+       - event store: stores events that represent changes in the system
+2.  SAGA: 
+   what is it :
+   A Saga is a sequence of local transactions across services where each step has a compensating action in case of failure 
+   why we use it: to 
+   manage complex business transactions that span multiple services. for example,
+   when creating an organization, we needed to create related entities like users and settings.
+   if any step failed, we had to roll back the previous steps to maintain data consistency.
+     pattern:
+       . each service commit a local transaction
+       . incase of failure, compensating transactions are triggered to undo the previous actions
+     types:
+       - choreography: services communicate directly through events
+       - orchestration: a central coordinator manages the workflow
+3.   CIRCUIT BREAKER: 
+  what is it :
+   A design pattern used to detect failures and encapsulate the logic of preventing a failure from constantly recurring during maintenance, temporary external system failure, or unexpected system difficulties.
+   why we use it: to
+    improve system resilience by preventing cascading failures. for example,
+    if the communication service was down, the circuit breaker would stop further attempts to
+    call it, allowing the system to degrade gracefully instead of failing completely.
+     states:
+       - closed: normal operation
+       - open: calls are blocked due to failures
+       - half-open: test calls to see if the service has recovered
+   API GATEWAY: act as a single entry point for all client requests, routing them to the appropriate microservices.
+   it also handles cross-cutting concerns like authentication, logging, and rate limiting.
+     features:
+       - request routing
+       - load balancing
+       - security
+       - monitoring
+   EVENT-DRIVEN PATTERN: use events to communicate between microservices, allowing for loose coupling and asynchronous processing.
+   for example, when an organization was created, an event would be published, and other services like communication service would listen for that event to perform related actions.
+     components:
+       - event producers: services that generate events
+       - event consumers: services that listen for and process events
+       - event broker: middleware that facilitates event communication (e.g., kafka, rabbitmq)    
+
+     
+
+
+  

@@ -1,0 +1,17 @@
+
+# this command displays list of nodes with their network interfaces and associated  mac address 
+ip address
+
+# this command displays only bridge type network interfaces
+ip address show type bridge
+
+# this command displays the routing table, network routes and default gateways
+
+ip route
+
+
+# this command displays help information about netstat command
+netstat --help
+
+
+netstat -npl | grep i scheduler  # this command displays the list of processes listening on network ports and filters the output to show only those related to "i scheduler"
