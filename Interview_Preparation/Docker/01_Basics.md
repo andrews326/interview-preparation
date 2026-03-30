@@ -251,3 +251,7 @@ Volumes are used to persist data outside containers, allowing data to survive ev
 
 docker volume create mydata
 docker run -v mydata:/data myapp
+
+to get port number of image
+
+docker run -d   --name nginx-proxy   -p 9000:9000   -v $(pwd)/nginx.conf:/etc/nginx/nginx.conf   nginx 

@@ -1,0 +1,118 @@
+🟢 SonarQube – BASIC Interview Questions
+1️⃣ What is SonarQube?
+
+👉 SonarQube is a static code analysis (SAST) tool used to detect bugs, vulnerabilities, and code smells to maintain code quality.
+
+2️⃣ Does SonarQube run code?
+
+👉 No. It analyzes source code statically, it does not execute the application.
+
+3️⃣ What languages does SonarQube support?
+
+👉 Java, Go, Python, JavaScript, C/C++, and many more.
+
+4️⃣ What is a Code Smell?
+
+👉 Poor coding practice that affects maintainability but does not break functionality.
+
+5️⃣ Difference between Bug and Vulnerability?
+
+👉 Bug affects functionality.
+👉 Vulnerability affects security.
+
+6️⃣ Does SonarQube fix issues?
+
+👉 No. It only reports issues.
+
+🟡 SonarQube – INTERMEDIATE Interview Questions
+7️⃣ What is a Quality Gate?
+
+👉 A set of conditions that decide whether a project passes or fails code quality.
+
+8️⃣ What happens if Quality Gate fails?
+
+👉 Jenkins pipeline fails and deployment or PR merge is blocked.
+
+9️⃣ How does SonarQube know which code to analyze?
+
+👉 Jenkins pulls code into workspace and Sonar Scanner analyzes those files.
+
+🔟 Does SonarQube pull code from GitHub?
+
+👉 No. Jenkins pulls code, SonarQube receives analysis results.
+
+1️⃣1️⃣ What is Sonar Scanner?
+
+👉 A CLI tool that analyzes source code and sends results to SonarQube.
+
+1️⃣2️⃣ Does SonarQube need a database?
+
+👉 Yes. PostgreSQL is required in production.
+
+1️⃣3️⃣ What is New Code in SonarQube?
+
+👉 Code added or modified after a specific point (branch, PR, or time).
+
+1️⃣4️⃣ How is SonarQube integrated with Jenkins?
+
+👉 Using Sonar Scanner and Quality Gate checks inside Jenkins pipeline.
+
+🔴 SonarQube – ADVANCED Interview Questions
+1️⃣5️⃣ Explain SonarQube end-to-end CI/CD flow.
+
+👉 GitHub webhook triggers Jenkins → Jenkins pulls code → Sonar Scanner runs → results sent to SonarQube → Quality Gate evaluated → pipeline pass/fail.
+
+1️⃣6️⃣ What is PR analysis in SonarQube?
+
+👉 Analysis of only changed code in a pull request before merging.
+
+1️⃣7️⃣ Does PR analysis replace CI/CD?
+
+👉 No. It is part of CI/CD and runs through Jenkins.
+
+1️⃣8️⃣ How does SonarQube handle code coverage?
+
+👉 Jenkins runs tests → coverage report generated → Sonar Scanner reads it → SonarQube displays coverage.
+
+1️⃣9️⃣ Difference between SonarQube and Trivy?
+
+👉 SonarQube is SAST for code quality.
+👉 Trivy scans images, dependencies, and OS vulnerabilities.
+
+2️⃣0️⃣ Can SonarQube scan Docker images?
+
+👉 No. Use Trivy.
+
+2️⃣1️⃣ How do you secure SonarQube in production?
+
+👉 Use PostgreSQL, restrict access, use tokens, integrate SSO, backup DB.
+
+2️⃣2️⃣ What are Security Hotspots?
+
+👉 Sensitive code areas that require manual review, not automatic failure.
+
+2️⃣3️⃣ Can SonarQube block production deployment?
+
+👉 Yes, via Quality Gate failure in CI/CD pipeline.
+
+⭐ Top Interview One-liners (VERY IMPORTANT)
+
+“SonarQube does not pull code; Jenkins does.”
+
+“Quality Gate failure blocks PR and deployment.”
+
+“SonarQube is SAST, not runtime scanning.”
+
+“PR analysis checks only new code.”
+
+🎯 Where you stand now
+
+You can confidently answer SonarQube questions from fresher to 3–4 yrs experience level.
+
+
+squ_feb794f79c0649854f7f807e215bab3a8e4c70ee
+
+
+sonar-scanner \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.login=squ_3beeac2dc4a4de0c4d15b150454f37380bd8a2b6

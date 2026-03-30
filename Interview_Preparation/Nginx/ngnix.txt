@@ -1,0 +1,115 @@
+❓Why do we use NGINX?
+“NGINX is used as a reverse proxy and load balancer to handle high traffic, improve performance, provide security, and act as a single entry point to backend services.”
+
+
+✅ What NGINX solves (in simple words)
+1️⃣ Single Entry Point
+
+One IP
+
+One domain
+
+Many backend servers
+
+2️⃣ Load Balancing
+
+Distributes traffic evenly
+
+No server overload
+
+Automatic failover
+
+3️⃣ Reverse Proxy
+
+Users never talk directly to backend
+
+Backend servers are hidden
+
+More secure
+
+4️⃣ SSL & Security
+
+HTTPS handled in one place
+
+Backend apps stay simple
+
+Easy certificate renewal
+
+5️⃣ Performance
+
+Caching
+
+Compression
+
+Faster 
+
+
+NGINX with K8s
+👉 Ingress is just a Kubernetes-friendly way of writing NGINX rules
+
+***IMPORTANT***
+“The domain name is created in DNS and mapped to the Ingress Controller’s external IP. 
+When a client sends a request, the HTTP Host header contains the domain name,
+which the Ingress Controller matches against the host field in the Ingress object to route traffic to the correct service.”
+
+
+❗ Important Clarifications (Interview gold)
+❓ Does Ingress create example.com?
+
+❌ No
+
+❓ Does Kubernetes manage DNS?
+
+❌ No (except internal cluster DNS)
+
+❓ Who sends Host: example.com?
+
+✅ Browser / client
+
+❓ What if host doesn’t match?
+
+👉 Request goes to:
+
+Default backend
+
+OR 404
+
+
+🔄 Complete Request Flow (VERY IMPORTANT)
+
+Browser
+  ↓
+DNS (example.com → Ingress IP)
+  ↓
+Ingress Controller (NGINX)
+  ↓
+Ingress rule (host + path)
+  ↓
+Kubernetes Service
+  ↓
+Pod (Golang app)
+
+
+2️⃣ Does Ingress care how the Service is exposed? (NodePort / ClusterIP / LB)
+✅ Your understanding is PERFECT
+
+Ingress does NOT care whether the Service is ClusterIP, NodePort, or LoadBalancer
+
+Why?
+
+Because:
+
+Ingress Controller runs inside the cluster
+
+It accesses Services via ClusterIP
+
+
+NOTE
+
+hashicorp/http-echo
+
+ It is the "Hello World" of backend services for DevOps and SysAdmins.
+
+ ashicorp/http-echo is a very popular Docker image. It is a tiny, lightweight web server
+  written in Go that does one simple thing: 
+  it echoes back a specific piece of text that you tell it to.

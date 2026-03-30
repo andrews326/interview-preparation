@@ -1,0 +1,173 @@
+variable blocks
+
+  in variable block terraform access three parameter
+
+  1. type: the data type of the variable (e.g., string, number, list, map)
+  2. default: an optional default value for the variable
+  3. description: an optional description of the variable's purpose
+
+  if we did not set a default value for a variable, we must provide a value for it when running Terraform commands.
+  if we did not set variable type in the variable block, terraform will infer the type based on the default value provided or the value supplied during runtime.
+
+  variable "example" {
+    type        = string
+    default     = "Hello, World!"
+    description = "An example variable"
+  }
+
+
+  variable types
+    1. string
+    2. number
+    3. bool
+    4. list
+    5. map
+    6. set
+    7. object
+    8. tuple
+    9. any
+    10. null
+
+    example variable type of list
+    variable "example_list" {
+      type = list(string)
+      default = ["item1", "item2", "item3"]
+    }
+
+  if we call variable from list in main.tf we can access it using the index, for example: var.example[0]
+
+   resource "example_resource" "example" {
+     name = var.example[0]
+   }
+
+   note::
+    the list maintains the order of elements, and we can have duplicate values.
+
+    note::
+     the list doesn't support mixed value types, all values must be of the same type.
+
+ example variable type of map :::
+   
+    variable "example_map" {
+      type = map(int)
+      default = {
+        key1 = 1
+        key2 = 2
+      }
+    }
+
+    variable "example_map" {
+      type = map(string)
+      default = {
+        key1 = "value1"
+        key2 = "value2"
+      }
+    }
+
+
+    if we call variable from map in main.tf we can access it using the key, for example: var.example["key1"]
+
+    resource "example_resource" "example" {
+      name = var.example_map["key1"]
+    }
+
+    note::
+     the map doesn't support mixed value types, all values must be of the same type. and the keys must be unique within the map.
+
+
+
+     SET:::
+     variable "example_set" {
+       type = set(string)
+       default = ["item1", "item2", "item3"]
+     }
+
+     resource "example_resource" "example" {
+       name = var.example_set[0]
+     }
+
+     note::
+      the set doesn't support duplicate values, and all values must be of the same type. its also similar to a list, but with the added restriction of uniqueness.
+
+
+
+      objects::
+
+      variable "example_object" {
+        type = object({
+          name        = string
+          age         = number
+          email      = string
+        })
+        default = {
+          name  = "John Doe"
+          age   = 30
+          email = "john.doe@example.com"
+        }
+      }
+
+      resource "example_resource" "example" {
+        name  = var.example_object.name
+        age   = var.example_object.age
+        email = var.example_object.email
+      }
+
+      note::
+       the object type allows for complex structures and can contain multiple attributes of different types.
+
+
+
+       tuple:::
+
+       variable "example_tuple" {
+         type = tuple([string, number, bool])
+         default = ["item1", 2, true]
+       }
+
+       resource "example_resource" "example" {
+         name  = var.example_tuple[0]
+         age   = var.example_tuple[1]
+         email = var.example_tuple[2]
+       }
+
+       note::
+        the tuple type allows for a fixed-length sequence of elements, where each element can be of a different type.
+
+
+        .tfvars
+        .tfvars.json
+
+
+
+        terraform.tfvars
+
+        example_variable = "value"
+
+
+
+        terraform.tfvars.json
+
+        {
+          "example_variable": "value"
+        }
+
+        terraform environment variables
+
+        TF_VAR_example = "value"
+        export TF_VAR_example = "value"
+
+
+        *auto.tfvars
+
+        
+
+        set variables in command line  is the most prioritized way to set variables
+
+
+
+
+        resource attributes
+
+        name = var.example
+        age  = var.example_age
+        email = var.example_email   

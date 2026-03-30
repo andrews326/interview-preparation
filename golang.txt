@@ -1,0 +1,297 @@
+📊 Total Lecture Count (Realistic)
+
+This is not like college lectures. Each “lecture” =
+deep concept + production angle + interview angle + discussion
+
+🔹 PHASE 1: Advanced Golang (Concurrency + Internals)
+~12–15 Lectures
+
+Rough split:
+
+Why concurrency exists + goroutines vs threads
+
+Go scheduler (GMP model – conceptual)
+
+Channels deep dive (buffered/unbuffered)
+
+Channel patterns (fan-in, fan-out, pipelines)
+
+select patterns & timeouts
+
+Context deep dive (cancellation, deadlines)
+
+Race conditions & deadlocks (real scenarios)
+
+Mutex, RWMutex, atomics
+
+WaitGroup, Once, Cond
+
+Graceful shutdown patterns
+
+Error handling patterns (advanced)
+
+Interfaces & clean contracts
+
+Memory basics + escape analysis
+
+Garbage collector & performance
+
+Profiling with pprof
+
+🔹 PHASE 2: Databases (Postgres + MongoDB)
+~10–12 Lectures
+
+Postgres:
+
+Schema design as a senior
+
+Index internals & composite indexes
+
+Query planner & EXPLAIN
+
+Transactions & isolation levels
+
+Locks & deadlocks
+
+Pagination & performance
+
+Migrations in production
+
+MongoDB:
+8. Document modeling (embedding vs referencing)
+9. Indexing & performance
+10. Aggregation pipeline
+11. Transactions & consistency
+12. Sharding (conceptual) + anti-patterns
+
+🔹 PHASE 3: Microservices Architecture
+~12–15 Lectures
+
+Monolith vs microservices (real trade-offs)
+
+Defining service boundaries
+
+Sync vs async communication
+
+API design & versioning
+
+Timeouts & retries
+
+Circuit breakers
+
+Idempotency patterns
+
+Distributed transactions (Saga)
+
+Event-driven architecture (Kafka)
+
+Eventual consistency
+
+Configuration & secrets
+
+Observability (logs, metrics, tracing)
+
+Rate limiting
+
+Graceful degradation
+
+Real-world failure scenarios
+
+
+“When do you use concurrency vs sequential execution?”
+
+I use concurrency when operations are independent and output order doesn’t matter.
+ If one operation depends on another’s result, I execute them sequentially to preserve correctness. 
+ Parallelism is handled by the runtime.
+
+ os thread creation in Go::
+     Golang os thread created by os kernel
+     Go runtime schedules goroutines onto OS threads
+
+
+❓ Where do goroutines actually run?
+
+👉 Goroutines run on OS threads (M)
+❌ Not on P
+❌ Not on CPU directly
+
+❓ What is P then?
+
+👉 P does NOT run code
+👉 P only schedules goroutines (decides which G runs next)
+
+❓ Do multiple goroutines map to a single OS thread?
+
+👉 YES — absolutely ✅
+That is the whole point of Go’s model.
+
+The One-Line Truth (Memorize This 🔥)
+
+Goroutines are executed by OS threads (M), and many goroutines are multiplexed onto fewer OS threads via P.
+
+
+chain ::
+
+Goroutine (G)
+   ↓ scheduled by
+Processor (P)
+   ↓ executed by
+OS Thread (M)
+   ↓ runs on
+CPU Core
+
+
+👉 When we say “goroutine runs”, we really mean:
+
+“An OS thread is running goroutine code on a CPU core.”
+
+So:
+
+❌ Goroutine does NOT run directly on CPU
+
+❌ Goroutine does NOT run on P
+
+✅ Goroutine runs via M on a CPU core
+
+2️⃣ How are goroutines queued?
+
+This is the most important part 👇
+
+❌ Wrong assumption (very common)
+
+Each OS thread has multiple goroutines queued ❌
+
+✅ Correct model
+
+Each P has its own goroutine run queue ✅
+
+3️⃣ Who owns goroutine queues?
+Goroutine queues exist in P, not M
+
+There are two types of queues:
+
+1️⃣ Local run queue (per P)
+
+Each P has:
+
+A local queue of runnable goroutines
+
+Fast access (no locking)
+
+2️⃣ Global run queue
+
+Shared across all Ps
+
+Used when:
+
+A P’s local queue is empty
+
+A goroutine is newly created
+
+Load balancing
+
+4️⃣ What does an OS thread (M) do then?
+
+An M does NOT own goroutines.
+
+Instead:
+
+M attaches to a P
+
+M takes goroutines from P’s queue
+
+M executes them on a CPU core
+
+When goroutine:
+
+blocks → M releases P
+
+finishes → M picks next G
+
+
+5️⃣ Step-by-step example (Very important)
+System
+
+CPU cores: 4
+
+GOMAXPROCS = 2
+
+Goroutines: 6
+
+Step 1: Create Ps
+P0, P1
+
+Step 2: Create goroutines
+G1 G2 G3 G4 G5 G6
+
+
+Queues:
+
+P0 queue → G1 G2 G3
+P1 queue → G4 G5 G6
+
+Step 3: Ms pick Ps
+M0 + P0 → runs G1 on CPU core
+M1 + P1 → runs G4 on CPU core
+
+
+Two goroutines are actually executing.
+
+Step 4: Context switch
+
+G1 finishes or yields
+
+M0 picks G2 from P0 queue
+
+Runs it on same OS thread, same CPU core
+
+Step 5: Blocking syscall case
+
+G2 does blocking I/O
+
+M0:
+
+parks G2
+
+releases P0
+
+Another M picks P0 and continues work
+
+👉 This is how Go avoids blocking the whole program
+
+6️⃣ Load balancing (stealing work)
+
+If:
+
+P1 finishes all its goroutines
+
+P0 still has many
+
+Then:
+
+P1 steals half from P0
+
+This is why:
+
+P is responsible for balancing load
+
+7️⃣ Final Clear Answers (Your Doubts)
+❓ Does goroutine run on CPU core?
+
+👉 Yes — via OS thread
+
+❓ Are goroutines queued per OS thread?
+
+👉 ❌ No
+
+❓ Where are goroutines queued?
+
+👉 In P’s run queues (local + global)
+
+❓ Can multiple goroutines run on one OS thread?
+
+👉 ✅ Yes (one at a time, unless more Ps)
+
+One-line memory hook 🧠
+
+P owns goroutines, M executes them, CPU runs M.

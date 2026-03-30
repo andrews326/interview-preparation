@@ -1,0 +1,18 @@
+
+
+commands      purpose
+
+init          Initialize a Terraform working directory
+plan          Create an execution plan
+apply         Apply the changes required to reach the desired state
+destroy       Destroy the managed infrastructure
+show          Show the current state of the infrastructure
+output        Show the output values from the resources
+
+to check aws credential command
+   cat ~/.aws/credentials
+
+   cat ~/.aws/config
+
+
+   cat ~/.aws/config/config

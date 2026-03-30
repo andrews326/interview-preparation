@@ -188,3 +188,11 @@ A:
 /internal     → private packages
 /api          → HTTP handlers
 /config       → configs/env
+
+4️⃣ Goroutines ≠ Threads (Important Interview Point)
+| Goroutines              | OS Threads    |
+| ----------------------- | ------------- |
+| Managed by Go runtime   | Managed by OS |
+| Lightweight             | Heavy         |
+| Cheap context switching | Expensive     |
+| Scale to millions       | Limited       |

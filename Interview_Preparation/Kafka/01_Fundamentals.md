@@ -80,3 +80,15 @@ Outside cluster: Producers and consumers (clients), consumer groups (logical).
 Offset = position in the Kafka stream of messages.
 
 Commit = action by the consumer to mark a message as processed and update Kafka with the last successfully processed offset
+
+
+
+# How Kafka Distributes 6 Partitions on 3 Brokers
+    
+Kafka uses a simple division logic. It tries to give every broker an equal "weight."
+
+Broker 1: Will host Partition 0 and Partition 3.
+
+Broker 2: Will host Partition 1 and Partition 4.
+
+Broker 3: Will host Partition 2 and Partition 5.

@@ -2,45 +2,39 @@
 // Print "Try programiz.pro" message
 
 package main
+
 import "fmt"
 
 func main() {
-  nums := []int{30,20,50,40,10}
-  quickSort(nums,0,len(nums)-1)
-  fmt.Println(nums)
+	str := "pwwkew"
+	l := lengthOfSubStr(str)
+	fmt.Println(l)
+	
 }
 
-func partition(arr []int, low , high int)int{
-    i, j := low+1, high
-    pivot := arr[low]
-    
-    for i <= j{
-		fmt.Println("i is ==> ", i, " j is ==>> ", j)
-		fmt.Println("arr of i ==> ", arr[i], "arr of j ==>> ", arr[j])
-        for i <= high && arr[i] <= pivot{
-            i++
-        }
-        
-        for j >= low && arr[j] > pivot{
-            j--
-        }
-        
-        if arr[i] < arr[j]{
-            arr[i], arr[j] = arr[j], arr[i]
-        }
-    }
-    
-	arr[low], arr[j] = arr[j], arr[low]
+func lengthOfSubStr(str string) int {
+	left, res := 0, 0
 
-    // arr[i], arr[j] = arr[low], pivot
-    
-    return j
-}
+	charSet := make(map[byte]bool)
+	r := 0
+	for right := 0; right < len(str); right++ {
+		r = right
+		for charSet[str[right]] {
+			delete(charSet, str[left])
+			left++
+		}
 
-func quickSort(nums []int, low, high int){
-    if low < high{
-        pivot := partition(nums, low, high)
-        quickSort(nums,low, pivot-1)
-        quickSort(nums, pivot+1, high)
-    }
+		charSet[str[right]] = true
+
+		if right-left+1 > res {
+			res = right - left + 1
+		}
+	}
+
+	for key := range charSet {
+		fmt.Printf("%c =  \n", key)
+	}
+
+	fmt.Println("Longest Substring:", str[left:r+1])
+	return res
 }

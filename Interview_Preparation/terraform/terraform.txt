@@ -1,0 +1,111 @@
+
+
+types of iac tools ::
+   
+   provisioning tools::
+
+        cloud formation
+        terraform
+
+
+   configuration tool management::
+
+        puppet
+        ansible
+        salt stack
+ 
+   server templating::
+
+        hashicorp packer
+        docker
+        hashicorp vagrant
+
+
+
+  
+        
+ it has three phases::
+ 
+   init =>> terraform intialize project 
+    plan =>> terraform plan to see the changes
+    apply =>> terraform apply to create the resources
+
+
+
+
+installing terraform::
+
+   get binary by using the following command:
+
+   curl -LO https://releases.hashicorp.com/terraform/1.0.0/terraform_1.0.0_linux_amd64.zip
+   unzip terraform_1.0.0_linux_amd64.zip
+   sudo mv terraform /usr/local/bin/
+
+
+
+ hcl basics
+ 
+
+   its cotain blocks and arguements
+   a block defined within curly braces and its contain set of key value pairs format
+    representing the cofiguration data
+
+   a block is a container for multiple arguments
+
+
+   syntax ::
+
+    resource "resource_type" "resource_name" {
+      # configuration options
+    }
+
+    resource is a keyword
+    resource type is the type of resource being created
+    resource name is the unique name for the resource (custom name)
+
+    resource "aws_instance" "example" {
+      ami           = "ami-123456"
+      instance_type = "t2.micro"
+    }
+
+    resource =>> block type
+    aws_instance =>> resource type
+    example =>> resource name
+
+
+plugin directory location::
+
+   ls root/terraform-local-file/.terraform
+     plugins
+
+
+ hashicorp/local/
+
+ hashicorp = organizational name
+ local     =  type of provider (it could be aws,gcp,azurerm etc)
+
+
+
+ plugin name
+   local
+
+
+ File name       purpose
+
+ main.tf         main configuration file containing resources definition
+
+ variables.tf   file containing variable definitions
+
+ outputs.tf     contains outputs from resources
+ provider.tf    contains provider configuration details
+
+
+
+ terraform providers
+ configuration directory
+ multiple providers
+ input variables
+ understanding the variable blocks
+ resource attributes
+ resource dependencies (explicit, implicit)
+ output variables
