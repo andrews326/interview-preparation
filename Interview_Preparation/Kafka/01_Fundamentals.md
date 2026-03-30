@@ -85,10 +85,16 @@ Commit = action by the consumer to mark a message as processed and update Kafka 
 
 # How Kafka Distributes 6 Partitions on 3 Brokers
     
-Kafka uses a simple division logic. It tries to give every broker an equal "weight."
+Let's look at your 6 Partitions and 3 Brokers example with a Replication Factor of 2 (meaning 1 Leader + 1 Follower for every partition).
 
-Broker 1: Will host Partition 0 and Partition 3.
+1. The Leader and Follower Map
+Kafka tries to spread the Leaders and Followers so that if one broker fails, you don't lose everything. Here is how Kafka might distribute them:
 
-Broker 2: Will host Partition 1 and Partition 4.
 
-Broker 3: Will host Partition 2 and Partition 5.
+Partition,   Leader (Active),  Follower (Backup)
+Partition 0,  Broker 1,         Broker 2
+Partition 1,  Broker 2,         Broker 3
+Partition 2,  Broker 3,         Broker 1
+Partition 3,  Broker 1,         Broker 3
+Partition 4,  Broker 2,         Broker 1
+Partition 5,  Broker 3,         Broker 2
