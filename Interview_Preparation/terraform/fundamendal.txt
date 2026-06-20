@@ -1,0 +1,172 @@
+What is Terraform?
+
+Terraform is an Infrastructure as Code (IaC) tool created by HashiCorp.
+
+It allows you to create infrastructure using code instead of manually clicking in cloud consoles.
+
+Example:
+Instead of manually creating:
+
+EC2
+VPC
+Load Balancer
+Kubernetes cluster
+Security Groups
+Databases
+
+You write code like:
+
+resource "aws_instance" "web" {
+  ami           = "ami-123456"
+  instance_type = "t2.micro"
+}
+
+Terraform reads this code and creates infrastructure automatically.
+
+Why Terraform Exists?
+
+Before Terraform:
+
+DevOps engineers manually:
+
+clicked resources in AWS console
+forgot configurations
+created inconsistent environments
+couldn't track changes
+couldn't reproduce infrastructure
+
+Problems:
+
+Human errors
+No version control
+Difficult rollback
+Different environments
+No automation
+
+Terraform solves this.
+
+
+
+Main Goal of Terraform
+
+Terraform's purpose is:
+
+"Define infrastructure using code and automate provisioning consistently."
+
+This means:
+
+same infra everywhere
+reproducible environments
+automation
+version control
+CI/CD integration   
+
+
+Terraform Architecture
+=====================
+
+Terraform architecture mainly contains:
+
+Terraform CLI
+      ↓
+Terraform Core
+      ↓
+Provider Plugins
+      ↓
+Cloud APIs
+
+
+
+1. Terraform CLI
+
+    CLI = command line tool.
+
+    Commands:
+
+    terraform init
+    terraform plan
+    terraform apply
+    terraform destroy
+
+    You interact with Terraform using CLI.
+
+    Example:
+    terraform init
+    terraform plan
+    terraform apply    
+
+2. Terraform Core
+
+
+    This is the brain of Terraform. It is a statically compiled binary written in Go (Golang).
+
+    Terraform Core:
+
+    reads .tf files
+    builds dependency graph
+    compares desired state vs current state
+    creates execution plan
+    manages state file
+
+    Core responsibilities:
+
+    state management
+    dependency resolution
+    execution planning
+
+
+3. Provider Plugins
+    difference between prividor and plugin
+
+    Providers are responsible for managing resources of a specific cloud or service (AWS, Azure, GCP, Kubernetes, etc).
+
+    Plugins are the actual implementations of providers. They contain the logic to interact with cloud APIs.
+
+    Example:
+    AWS provider plugin knows how to create EC2 instances, VPCs, etc.
+
+    Providers are distributed as plugins. You can install them using terraform init.    
+
+
+
+
+    Providers connect Terraform with platforms.
+
+    Examples:
+
+    AWS provider
+    Kubernetes provider
+    Docker provider
+    Azure provider
+    GitHub provider
+
+    Example:
+
+    provider "aws" {
+    region = "ap-south-1"
+    }
+
+    Provider translates Terraform language into API calls.
+
+
+
+
+4. Cloud APIs
+
+    Terraform never directly creates resources.
+
+    Instead:
+    Terraform → Provider → Cloud API
+
+    Example:
+
+    Terraform:
+
+    resource "aws_s3_bucket" "demo" {}
+
+    AWS provider converts this into AWS API request.    
+
+
+
+    
+

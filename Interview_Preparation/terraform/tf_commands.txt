@@ -16,3 +16,59 @@ to check aws credential command
 
 
    cat ~/.aws/config/config
+
+
+   # apply terraform configuration with specific configuration file
+   terraform apply -var-file="custom.tfvars"
+
+   # apply terraform configuration with specific variable values
+   terraform apply -var="variable_name=value"
+
+   # apply terraform configuration with specific variable values from environment variables
+   export TF_VAR_variable_name=value
+   terraform apply
+
+   # apply terraform configuration with specific variable values from environment variables
+   TF_VAR_variable_name=value terraform apply
+
+   # advance apply command with auto-approval
+   terraform apply -auto-approve
+   # advance apply command with parallelism
+   terraform apply -parallelism=10
+   # advance apply command with target resource
+   terraform apply -target=aws_instance.example
+   # advance apply command with refresh
+   terraform apply -refresh=false
+   # advance apply command with state file
+   terraform apply -state=custom.tfstate
+   # advance apply command with state file and backup
+   terraform apply -state=custom.tfstate -backup=custom.tfstate.backup
+   # advance apply command with input
+   terraform apply -input=false
+   # advance apply command with lock
+   terraform apply -lock=false
+   # advance apply command with lock timeout
+   terraform apply -lock-timeout=5m
+   # advance apply command with no-color
+   terraform apply -no-color
+   # advance apply command with var-file and auto-approval
+   terraform apply -var-file="custom.tfvars" -auto-approve
+   # advance apply command with var-file and parallelism
+   terraform apply -var-file="custom.tfvars" -parallelism=10
+   # advance apply command with var-file and target resource
+   terraform apply -var-file="custom.tfvars" -target=aws_instance.example
+   # advance apply command with var-file and refresh
+   terraform apply -var-file="custom.tfvars" -refresh=false
+   # advance apply command with var-file and state file
+   terraform apply -var-file="custom.tfvars" -state=custom.tfstate
+   # advance apply command with var-file and state file and backup
+   terraform apply -var-file="custom.tfvars" -state=custom.tfstate -backup=custom.tfstate.backup
+   # advance apply command with var-file and input
+   terraform apply -var-file="custom.tfvars" -input=false
+   # advance apply command with var-file and lock
+   terraform apply -var-file="custom.tfvars" -lock=false
+   # advance apply command with var-file and lock timeout
+   terraform apply -var-file="custom.tfvars" -lock-timeout=5m
+   # advance apply command with var-file and no-color
+   terraform apply -var-file="custom.tfvars" -no-color   
+   

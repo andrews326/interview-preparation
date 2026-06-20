@@ -1,0 +1,79 @@
+Terraform Workflow
+==========================
+
+    Write Code
+        ↓
+    terraform init
+        ↓
+    terraform plan
+        ↓
+    terraform apply
+        ↓
+    Infrastructure Created
+   
+ 
+ 
+Step 1 — Write Configuration
+
+    Terraform files use:
+
+    .tf
+    HCL language
+
+    Example:
+
+    resource "aws_instance" "myec2" {
+    ami           = "ami-123"
+    instance_type = "t2.micro"
+    }
+
+
+Step 2 — terraform init
+
+    Initializes project.
+
+    Downloads:
+
+    providers
+    plugins
+    modules
+
+    its also responsible for setting up the backend for state management if configured.
+    and it also creates the .terraform directory where it stores the downloaded providers and plugins.
+    
+    it will create a lock file (.terraform.lock.hcl) to ensure consistent provider versions across different environments and runs.
+
+    Creates:
+
+    .terraform/
+
+    Think:
+
+    "Project setup phase"    
+
+
+Step 3 — terraform plan
+
+    This is DRY RUN.
+
+    Terraform checks:
+
+    existing infra
+    desired infra
+
+    Then shows:
+
+    what will be created
+    modified
+    destroyed
+
+    Example:
+
+    + create EC2
+    ~ modify S3
+    - destroy IAM
+
+    Companies heavily rely on plan. 
+    
+    
+    

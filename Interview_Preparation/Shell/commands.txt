@@ -1,0 +1,119 @@
+# system monitoring
+
+
+
+
+
+
+
+# file management
+
+andrews@ANDREWS:~$ df
+Filesystem     1K-blocks      Used Available Use% Mounted on
+tmpfs            1614468      3308   1611160   1% /run
+/dev/nvme0n1p2 490048472 130982448 334099420  29% /
+tmpfs            8072336    509288   7563048   7% /dev/shm
+tmpfs               5120        12      5108   1% /run/lock
+efivarfs             150        82        64  57% /sys/firmware/efi/efivars
+/dev/nvme0n1p1   1098632      6288   1092344   1% /boot/efi
+tmpfs            1614464       132   1614332   1% /run/user/1000
+andrews@ANDREWS:~$ 
+
+
+
+
+the main system disk is /dev/nvme0n1p2, which is mounted on the root directory (/). 
+  it contains 
+    1. os
+    2. applications
+    3. my files(inside home directory)
+
+
+ 2️⃣ EFI partition
+/dev/nvme0n1p1 → mounted on /boot/efi
+
+👉 This is used for:
+
+Bootloader (UEFI system)
+Required to start the OS
+
+📌 You normally don’t touch this
+
+
+
+3️⃣ tmpfs (temporary memory-based storage)
+
+Examples:
+
+tmpfs → /run
+tmpfs → /dev/shm
+tmpfs → /run/user/1000
+
+👉 These are:
+
+Stored in RAM, not disk
+Automatically cleared on reboot
+
+📌 Used for:
+
+temp files
+system runtime data
+
+
+4️⃣ efivarfs
+efivarfs → /sys/firmware/efi/efivars
+
+👉 Stores firmware (BIOS/UEFI) variables
+
+
+
+🔗 What is “mounting”?
+
+This is the key concept:
+
+👉 A disk/partition becomes usable only when it is mounted to a folder.
+
+🆚 Windows vs Linux (simple comparison)
+| Concept   | Windows         | Linux           |
+| --------- | --------------- | --------------- |
+| Drives    | C:, D:, E:      | No letters      |
+| Structure | Separate roots  | Single root `/` |
+| Access    | By drive letter | By mount point  |
+| Example   | D:\files        | /mnt/data/files |
+
+
+
+🧠 Types of “drives” in Linux
+
+Not called drives like Windows, but:
+
+🔹 1. Physical disks
+/dev/nvme0n1
+/dev/sda
+🔹 2. Partitions
+/dev/nvme0n1p1
+/dev/nvme0n1p2
+🔹 3. Virtual filesystems
+tmpfs
+proc
+sysfs
+🔹 4. Mounted external drives
+USB → /media/username/usb-name
+
+
+* BASH TERMINATE(kill) COMMANDS
+1. kill
+
+
+
+| CIDR | Total IPs |
+| ---- | --------: |
+| /32  |         1 |
+| /30  |         4 |
+| /24  |       256 |
+| /22  |      1024 |
+| /20  |      4096 |
+| /18  |     16384 |
+| /16  |     65536 |
+| /12  |    1048576 |
+| /8   |   16777216 |

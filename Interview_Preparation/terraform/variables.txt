@@ -164,8 +164,6 @@ variable blocks
         set variables in command line  is the most prioritized way to set variables
 
 
-
-
         resource attributes
 
         name = var.example

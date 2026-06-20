@@ -1,0 +1,194 @@
+Most Important Terraform Concepts
+
+These are core fundamentals.
+
+1. Providers
+
+Connect Terraform to external services.
+
+Examples:
+
+AWS
+Azure
+Kubernetes
+Docker
+GitHub
+
+2. Resources
+
+Actual infrastructure objects.
+
+Examples:
+
+EC2
+S3
+VPC
+IAM
+EKS
+
+Example:
+
+resource "aws_s3_bucket" "demo" {
+  bucket = "my-demo"
+}
+3. Variables
+
+Used for reusable code.
+
+Example:
+
+variable "instance_type" {}
+4. Outputs
+
+Display values after deployment.
+
+Example:
+
+output "public_ip" {
+  value = aws_instance.web.public_ip
+}
+5. State File
+
+Tracks infrastructure.
+
+Critical concept.
+
+6. Modules
+
+Reusable Terraform code.
+
+Like functions in programming.
+
+Used heavily in companies.
+
+it allows you to organize and reuse your Terraform code, making it easier
+ to manage and maintain your infrastructure as code. Modules can be shared across teams 
+ and projects, promoting consistency and best practices in infrastructure management.
+
+ it could be like ::
+  
+    module "vpc" {
+    source = "./modules/vpc"
+    cidr_block = "10.0.0.0/16"
+    }
+
+7. Backend
+
+    Where state file is stored.
+
+    Production companies NEVER store state locally.
+
+    Usually:
+
+    S3
+    Terraform Cloud
+    Consul
+
+8. Provisioners
+
+    Run scripts during resource creation.
+
+    Example:
+
+    install packages
+    bootstrap server
+
+    Not preferred much in modern production.
+
+9. Data Sources
+
+    Read existing infrastructure.
+
+    Example:
+
+    existing VPC
+    existing AMI
+
+10. Dependency Graph
+
+    Terraform automatically understands dependencies.
+
+    Example:
+
+        EC2 depends on subnet
+        Subnet depends on VPC
+
+Terraform creates resources in correct order.
+
+
+
+
+
+Important Terraform Files
+
+| File              | Purpose            |
+| ----------------- | ------------------ |
+| main.tf           | main configuration |
+| variables.tf      | variables          |
+| outputs.tf        | outputs            | # which means the values that will be displayed after the deployment
+| terraform.tfvars  | variable values    |
+| provider.tf       | providers          |
+| terraform.tfstate | current state      |
+
+
+
+Typical project after both commands
+
+project/
+ ├── main.tf
+ ├── variables.tf
+ ├── outputs.tf
+ ├── terraform.tfstate # this file is created after the first terraform apply command
+ ├── terraform.tfstate.backup # this file is created after the first terraform apply command
+ ├── terraform.tfvars # this file is created by user to assign values to variables
+ ├── provider.tf   # this file is created by user to configure providers
+ ├── .terraform.lock.hcl # this file is created during terraform init command
+ └── .terraform/
+     └── plugins/
+         └── hashicorp/
+             └── aws/
+                 └── 3.0.0/
+                     └── terraform-provider-aws_v3.0.0_x586_64
+
+
+
+# real world terraform project structure with modules, environments, and multiple files and folders, tf.vars files
+project/
+├── main.tf
+├── variables.tf
+├── outputs.tf
+├── terraform.tfstate
+├── terraform.tfstate.backup
+├── terraform.tfvars
+├── provider.tf
+├── .terraform.lock.hcl
+├── .terraform/
+│   └── plugins/
+│       └── hashicorp/
+│           └── aws/
+│               └── 3.0.0/
+│                   └── terraform-provider-aws_v3.0.0_x586_64
+├── modules/
+│   ├── vpc/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   └── outputs.tf
+│   ├── ec2/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   └── outputs.tf
+│   └── s3/
+│       ├── main.tf
+│       ├── variables.tf
+│       └── outputs.tf
+├── environments/
+│   ├── dev/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│   │   └── terraform.tfvars
+│   ├── staging/
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── outputs.tf
+│   │   └── terraform.tfvars    

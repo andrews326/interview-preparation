@@ -219,7 +219,7 @@ Abstraction – Achieved through interfaces, where the implementation details of
 | **Concurrency Model** | M:N model (goroutines multiplexed to threads) | 1:1 or 1:M (OS threads)                         |
 | **Locking/Sync**      | Implicit synchronization via channels         | Explicit locking (mutexes, condition variables) |
 | **Ease of Use**       | Very simple, clean syntax                     | Can be more complex and error-prone             |
-
+| ** stack***           | dynamic stack size automatically grow or shrink
 
 Goroutines are managed by the Go runtime.
 

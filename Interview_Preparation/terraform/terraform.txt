@@ -109,3 +109,18 @@ plugin directory location::
  resource attributes
  resource dependencies (explicit, implicit)
  output variables
+
+
+ ### Terraform Providers
+ ========================
+ providers plugins will install the required provider plugins in the .terraform directory when you run terraform init. These plugins are necessary for Terraform to interact with the respective cloud services or platforms.
+
+------------------------------------------------------------------------------------------- 
+File,        -          Created Automatically?,   -    Purpose
+--------------------------------------------------------------------------------------------
+main.tf,                No,                             Your actual infrastructure code.
+variables.tf,           No,                             Defines what variables are allowed.
+terraform.tfvars,       No,                            Assigns actual values to those variables.
+.terraform.lock.hcl,    Yes,                         Created during terraform init.
+terraform.tfstate,      Yes,                         Created after the first terraform apply.
+---------------------------------------------------------------------------------------------------
